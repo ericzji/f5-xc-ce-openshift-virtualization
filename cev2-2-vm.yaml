@@ -1,0 +1,91 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: cev2-2
+  namespace: f5-ce
+  labels:
+    app: f5-ce
+spec:
+  runStrategy: Always
+  template:
+    metadata:
+      labels:
+        app: f5-ce
+    spec:
+      domain:
+        resources:
+          requests:
+            memory: 16Gi
+            cpu: "4"
+        devices:
+          disks:
+            - name: f5-ce-disk
+              disk:
+                bus: virtio
+            - name: cloudinitdisk
+              disk:
+                bus: virtio
+          interfaces:
+            - name: outside-net
+              bridge: {}
+            - name: inside-net
+              bridge: {}
+      networks:
+        - name: outside-net
+          multus:
+            networkName: "f5-ce/ce2-slo"
+        - name: inside-net
+          multus:
+            networkName: "f5-ce/ce2-sli"
+      volumes:
+        - name: f5-ce-disk
+          dataVolume:
+            name: cev2-2-datavolume
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            networkData: |
+              network:
+                version: 2
+                ethernets:
+                  enp1s0:
+                    dhcp4: false
+                    addresses: [192.170.10.162/24]
+                    gateway4: 192.170.10.1
+                    nameservers:
+                      addresses:
+                        - 10.105.134.20
+                        - 10.105.134.21
+                      search:
+                        - bd.f5.com
+                    optional: true          
+                  enp2s0:
+                    dhcp4: false
+                    addresses: [192.170.11.162/24]
+                    gateway4: 192.170.11.1
+                    nameservers:
+                      addresses:
+                        - 10.105.134.20
+                        - 10.105.134.21
+                      search:
+                        - bd.f5.com
+                    optional: true          
+            userData: |-
+              #cloud-config
+              hostname: master-0
+              fqdn: master-0
+              manage_etc_hosts: true
+              chpasswd:
+                list: |
+                  admin:Volterra12345
+                expire: False
+              runcmd:
+                - [ hostnamectl, hostname, node-0]
+              write_files:
+                - path: /etc/vpm/user_data
+                  permissions: '0644'
+                  owner: root
+                  content: |
+                    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXRlX25hbWUiOiJlcmljamktb2NwLXNtc3YyLXNpdGUxNCIsInRlbmFudF9uYW1lIjoiZjUtc2Etcm54ZXVkc3MiLCJ0b2tlbl91dWlkIjoiMzNlNDk3ZjktYzJiZC00NzRmLTk3OGUtN2Y3MjFmODE5ZDUzIiwiaHR0cF9wcm94eSI6IjE1OS42MC4xNDEuMTQwOjQ0MyIsInJlZ2lzdHJhdGlvbl91cmwiOiJ2ZXMudm9sdGVycmEuaW8iLCJpc3MiOiJGNSBYQyBTaXRlIE1hbmFnZXIiLCJzdWIiOiJGNSBYQyBTaXRlIFRva2VuIiwiZXhwIjoxNzI2NjM0MjY5LCJpYXQiOjE3MjY1NDc4Njl9.1-LXR807nEPMFdlkxqs0d09KfBOHKBo7lc7_Z1_p-lk
+                    slo_ip: 192.170.10.162/24    
+                    slo_gateway: 192.170.10.1    
+                    slo_dns: 10.105.134.20

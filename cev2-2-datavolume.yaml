@@ -1,0 +1,15 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: cev2-2-datavolume
+  namespace: f5-ce
+spec:
+  pvc:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 150Gi
+  source:
+    http:
+      url: http://192.170.10.200/f5xc-ce-9.2024.22-20240806132626.qcow2

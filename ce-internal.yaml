@@ -1,0 +1,16 @@
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: ce2-sli
+  namespace: f5-ce
+spec:
+  config: |
+    {
+      "cniVersion": "0.4.0",
+      "name": "ce2-sli",
+      "type": "ovn-k8s-cni-overlay",
+      "topology": "localnet",
+      "netAttachDefName": "f5-ce/ce2-sli",
+      "vlanID": 3011,
+      "ipam": {}
+    }

@@ -18,30 +18,6 @@ spec:
           - name: eno1
     ovn:
       bridge-mappings:
-      - localnet: bigip1-mgmt
-        bridge: ovs-vms
-        state: present
-      - localnet: bigip1-ha
-        bridge: ovs-vms
-        state: present
-      - localnet: bigip1-ext
-        bridge: ovs-vms
-        state: present
-      - localnet: bigip1-int
-        bridge: ovs-vms
-        state: present
-      - localnet: bigip2-mgmt
-        bridge: ovs-vms
-        state: present
-      - localnet: bigip2-ha
-        bridge: ovs-vms
-        state: present
-      - localnet: bigip2-ext
-        bridge: ovs-vms
-        state: present
-      - localnet: bigip2-int
-        bridge: ovs-vms
-        state: present
       - localnet: ce2-slo
         bridge: ovs-vms
         state: present

@@ -9,8 +9,8 @@ spec:
       "cniVersion": "0.4.0",
       "name": "ce2-sli",
       "type": "ovn-k8s-cni-overlay",
-      "topology": "localnet",
+      "topology": "layer2",
       "netAttachDefName": "f5-ce/ce2-sli",
-      "vlanID": 3011,
+      "mtu": 1400,
       "ipam": {}
     }

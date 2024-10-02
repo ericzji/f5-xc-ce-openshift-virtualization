@@ -21,6 +21,3 @@ spec:
       - localnet: ce2-slo
         bridge: ovs-vms
         state: present
-      - localnet: ce2-sli
-        bridge: ovs-vms
-        state: present

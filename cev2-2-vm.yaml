@@ -57,18 +57,7 @@ spec:
                         - 10.105.134.21
                       search:
                         - bd.f5.com
-                    optional: true          
-                  enp2s0:
-                    dhcp4: false
-                    addresses: [192.170.11.162/24]
-                    gateway4: 192.170.11.1
-                    nameservers:
-                      addresses:
-                        - 10.105.134.20
-                        - 10.105.134.21
-                      search:
-                        - bd.f5.com
-                    optional: true          
+                    optional: true                
             userData: |-
               #cloud-config
               hostname: master-0
